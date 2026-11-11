@@ -247,6 +247,12 @@ class OSPFInterface(PrimaryModel):
     )
     passive = models.BooleanField(verbose_name='Passive', blank=True, null=True)
     priority = models.IntegerField(blank=True, null=True)
+    cost = models.PositiveIntegerField(
+        verbose_name=_('Cost'),
+        blank=True,
+        null=True,
+        validators=[MinValueValidator(1), MaxValueValidator(65535)],
+    )
     bfd = models.BooleanField(blank=True, null=True, verbose_name='BFD')
     network_type = models.CharField(
         verbose_name=_('Network Type'),
@@ -266,6 +272,7 @@ class OSPFInterface(PrimaryModel):
         'interface',
         'passive',
         'priority',
+        'cost',
         'bfd',
         'network_type',
         'authentication',

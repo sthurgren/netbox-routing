@@ -64,6 +64,7 @@ class OSPFInterfaceType(PrimaryObjectType):
     network_type: str | None
     passive: bool | None
     priority: str | None
+    cost: int | None
     bfd: bool | None
     authentication: str | None
     passphrase: str | None

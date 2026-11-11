@@ -176,6 +176,7 @@ class OSPFInterfaceTestCase(IPAddressFieldMixin, APIViewTestCases.APIViewTestCas
                 'network_type': 'point-to-point',
                 'passive': True,
                 'priority': 2,
+                'cost': 10,
                 'authentication': 'message-digest',
                 'passphrase': 'test-password',
                 'bfd': True,

@@ -192,6 +192,9 @@ class OSPFInterfaceBulkEditForm(NetBoxModelBulkEditForm):
         label=_('Passive'), choices=BOOLEAN_WITH_BLANK_CHOICES, required=False
     )
     priority = forms.IntegerField(label=_('Priority'), required=False)
+    cost = forms.IntegerField(
+        label=_('Cost'), min_value=1, max_value=65535, required=False
+    )
     bfd = forms.ChoiceField(
         label=_('BFD'), choices=BOOLEAN_WITH_BLANK_CHOICES, required=False
     )
@@ -219,6 +222,7 @@ class OSPFInterfaceBulkEditForm(NetBoxModelBulkEditForm):
             'network_type',
             'passive',
             'priority',
+            'cost',
             'bfd',
             'authentication',
             'passphrase',
@@ -226,4 +230,4 @@ class OSPFInterfaceBulkEditForm(NetBoxModelBulkEditForm):
         ),
         FieldSet('description'),
     )
-    nullable_fields = ('network_type',)
+    nullable_fields = ('network_type', 'cost')

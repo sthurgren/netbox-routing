@@ -116,7 +116,12 @@ class OSPFInterfaceFilterForm(NetBoxModelFilterSetForm):
         FieldSet('instance_id', 'area_id', name=_('OSPF')),
         FieldSet('device_id', 'interface_id', 'vrf_id', name=_('Device')),
         FieldSet(
-            'network_type', 'priority', 'bfd', 'authentication', name=_('Attributes')
+            'network_type',
+            'priority',
+            'cost',
+            'bfd',
+            'authentication',
+            name=_('Attributes'),
         ),
     )
     device_id = DynamicModelMultipleChoiceField(
@@ -160,6 +165,7 @@ class OSPFInterfaceFilterForm(NetBoxModelFilterSetForm):
         widget=forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
     )
     priority = forms.IntegerField(required=False)
+    cost = forms.IntegerField(required=False, label=_('Cost'))
     network_type = forms.ChoiceField(
         choices=add_blank_choice(OSPFNetworkTypeChoices),
         label=_('Network Type'),

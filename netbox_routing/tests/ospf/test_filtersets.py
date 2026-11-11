@@ -277,6 +277,7 @@ class OSPFInterfaceTestCase(TestCase):
                 area=areas[0],
                 passive=True,
                 network_type='point-to-point',
+                cost=10,
             ),
             OSPFInterface(
                 interface=interfaces[1],
@@ -284,6 +285,7 @@ class OSPFInterfaceTestCase(TestCase):
                 area=areas[1],
                 passive=False,
                 network_type='point-to-point',
+                cost=10,
             ),
             OSPFInterface(
                 interface=interfaces[2],
@@ -291,6 +293,7 @@ class OSPFInterfaceTestCase(TestCase):
                 area=areas[2],
                 passive=True,
                 network_type='broadcast',
+                cost=100,
             ),
             OSPFInterface(
                 interface=interfaces[3],
@@ -363,3 +366,10 @@ class OSPFInterfaceTestCase(TestCase):
 
         params = {'network_type': ['point-to-point', 'broadcast']}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+
+    def test_cost(self):
+        params = {'cost': [10]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+        params = {'cost__gte': [100]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)

@@ -220,6 +220,7 @@ class OSPFInterfaceFilterSet(NetBoxModelFilterSet):
             'passive',
             'bfd',
             'priority',
+            'cost',
             'authentication',
             'passphrase',
         )
