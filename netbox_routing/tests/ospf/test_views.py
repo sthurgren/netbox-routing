@@ -65,11 +65,18 @@ class OSPFInstanceTestCase(
             'router_id': '4.4.4.4',
             'process_id': 4,
             'vrf': vrf.pk,
+            'reference_bandwidth': 100000,
+            'distance': 110,
+            'default_information_originate': 'originate',
+            'default_information_metric_type': 'type-2',
+            'passive_interface_default': True,
         }
 
         cls.bulk_edit_data = {
             'description': 'A test Instance description',
             'vrf': vrf.pk,
+            'reference_bandwidth': 100000,
+            'distance': 110,
         }
 
     def _get_base_url(self):
@@ -199,12 +206,14 @@ class OSPFInterfaceTestCase(
             'area': areas[3].pk,
             'instance': instances[3].pk,
             'network_type': 'point-to-point',
+            'cost': 10,
             'passive': True,
         }
 
         cls.bulk_edit_data = {
             'description': 'A test Interface description',
             'network_type': 'broadcast',
+            'cost': 100,
             'passive': False,
         }
 

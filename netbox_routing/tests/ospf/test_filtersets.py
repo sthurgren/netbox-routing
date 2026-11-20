@@ -41,6 +41,9 @@ class OSPFInstanceTestCase(TestCase):
                 router_id='0.0.0.0',
                 process_id=0,
                 vrf=vrfs[0],
+                reference_bandwidth=100000,
+                passive_interface_default=True,
+                default_information_metric_type='type-1',
             ),
             OSPFInstance(
                 name='Instance 2',
@@ -48,6 +51,9 @@ class OSPFInstanceTestCase(TestCase):
                 router_id='1.1.1.1',
                 process_id=1,
                 vrf=vrfs[1],
+                reference_bandwidth=100000,
+                passive_interface_default=True,
+                default_information_metric_type='type-2',
             ),
             OSPFInstance(
                 name='Instance 3',
@@ -55,6 +61,9 @@ class OSPFInstanceTestCase(TestCase):
                 router_id='2.2.2.2',
                 process_id=2,
                 vrf=None,
+                reference_bandwidth=100,
+                passive_interface_default=False,
+                default_information_metric_type='type-2',
             ),
             OSPFInstance(
                 name='Instance 3',
@@ -99,6 +108,21 @@ class OSPFInstanceTestCase(TestCase):
 
     def test_router_id(self):
         params = {'router_id': ['1.1.1.1', '2.2.2.2']}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_reference_bandwidth(self):
+        params = {'reference_bandwidth': [100000]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+        params = {'reference_bandwidth__n': [100000]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_passive_interface_default(self):
+        params = {'passive_interface_default': True}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+    def test_default_information_metric_type(self):
+        params = {'default_information_metric_type': ['type-2']}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
 
 
@@ -247,6 +271,7 @@ class OSPFInterfaceTestCase(TestCase):
                 area=areas[0],
                 passive=True,
                 network_type='point-to-point',
+                cost=10,
             ),
             OSPFInterface(
                 interface=interfaces[1],
@@ -254,6 +279,7 @@ class OSPFInterfaceTestCase(TestCase):
                 area=areas[1],
                 passive=False,
                 network_type='point-to-point',
+                cost=10,
             ),
             OSPFInterface(
                 interface=interfaces[2],
@@ -261,6 +287,7 @@ class OSPFInterfaceTestCase(TestCase):
                 area=areas[2],
                 passive=True,
                 network_type='broadcast',
+                cost=100,
             ),
             OSPFInterface(
                 interface=interfaces[3],
@@ -333,3 +360,10 @@ class OSPFInterfaceTestCase(TestCase):
 
         params = {'network_type': ['point-to-point', 'broadcast']}
         self.assertEqual(self.filterset(params, self.queryset).qs.count(), 3)
+
+    def test_cost(self):
+        params = {'cost': [10]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 2)
+
+        params = {'cost__gte': [100]}
+        self.assertEqual(self.filterset(params, self.queryset).qs.count(), 1)

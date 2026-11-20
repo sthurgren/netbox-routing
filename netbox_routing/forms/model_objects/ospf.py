@@ -47,6 +47,38 @@ class OSPFInstanceForm(PrimaryModelForm):
             'vrf',
             name=_('Instance'),
         ),
+        FieldSet(
+            'reference_bandwidth',
+            'passive_interface_default',
+            name=_('Settings'),
+        ),
+        FieldSet(
+            'timers_spf_initial',
+            'timers_spf_hold',
+            'timers_spf_max',
+            'timers_lsa_initial',
+            'timers_lsa_hold',
+            'timers_lsa_max',
+            name=_('Timers'),
+        ),
+        FieldSet(
+            'distance',
+            'distance_intra_area',
+            'distance_inter_area',
+            'distance_external',
+            name=_('Distance'),
+        ),
+        FieldSet(
+            'default_information_originate',
+            'default_information_metric',
+            'default_information_metric_type',
+            name=_('Default Information'),
+        ),
+        FieldSet(
+            'max_metric_router_lsa',
+            'max_metric_on_startup',
+            name=_('Max Metric'),
+        ),
     )
 
     class Meta:
@@ -57,11 +89,33 @@ class OSPFInstanceForm(PrimaryModelForm):
             'process_id',
             'device',
             'vrf',
+            'reference_bandwidth',
+            'timers_spf_initial',
+            'timers_spf_hold',
+            'timers_spf_max',
+            'timers_lsa_initial',
+            'timers_lsa_hold',
+            'timers_lsa_max',
+            'distance',
+            'distance_intra_area',
+            'distance_inter_area',
+            'distance_external',
+            'default_information_originate',
+            'default_information_metric',
+            'default_information_metric_type',
+            'max_metric_router_lsa',
+            'max_metric_on_startup',
+            'passive_interface_default',
             'description',
             'comments',
             'tags',
             'owner',
         )
+
+        widgets = {
+            'max_metric_router_lsa': forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+            'passive_interface_default': forms.Select(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        }
 
 
 class OSPFAreaForm(PrimaryModelForm):
@@ -124,6 +178,7 @@ class OSPFInterfaceForm(PrimaryModelForm):
             'interface',
             'network_type',
             'priority',
+            'cost',
             'passive',
             'bfd',
             name=_('Interface'),
@@ -145,6 +200,7 @@ class OSPFInterfaceForm(PrimaryModelForm):
             'network_type',
             'passive',
             'priority',
+            'cost',
             'bfd',
             'authentication',
             'passphrase',
